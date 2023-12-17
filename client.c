@@ -60,6 +60,8 @@ int main(int argc, char* argv[])
 	
 	int wbytes;
 	char buf[MAXLINE];
+	
+	while(read(clientfd, buf, MAXLINE) <= 0);
 
 	while(!feof(fp))
 	{

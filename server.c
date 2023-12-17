@@ -117,6 +117,8 @@ int main(int argc, char* argv[])
 	//open file to store result.
 	FILE* fp = fopen("answer.dat", "w");
 
+	write(connfd, "CONNECTED!!", 10);
+
 	int n;
 	int lines;
 	while(1)
