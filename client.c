@@ -1,5 +1,4 @@
 #include "kvs.h"
-#include <dlfcn.h>	//for dynamic linking!!
 #include <string.h>
 #include <unistd.h>
 
@@ -61,7 +60,7 @@ int main(int argc, char* argv[])
 	int wbytes;
 	char buf[MAXLINE];
 	
-	while(read(clientfd, buf, MAXLINE) <= 0);
+	while(read(clientfd, buf, MAXLINE) < 0);
 
 	while(!feof(fp))
 	{
@@ -69,7 +68,7 @@ int main(int argc, char* argv[])
 		if ((wbytes=write(clientfd, buf, strlen(buf))) < strlen(buf))
 			printf("failed to send message\n");
 		printf("write %d bytes!!\n", wbytes);
-		while(read(clientfd, buf, MAXLINE) <= 0);
+		while(read(clientfd, buf, MAXLINE) < 0);
 	}
 	
 	fclose(fp);

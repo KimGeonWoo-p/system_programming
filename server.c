@@ -1,5 +1,4 @@
 #include "kvs.h"
-#include <dlfcn.h>	//for dynamic linking!!
 
 //for network
 #include <sys/socket.h>
@@ -17,62 +16,6 @@ int main(int argc, char* argv[])
 		printf("no enough argument\n");
 		return -1;
 	}
-	
-	//functions
-	char* (*get)(kvs_t*, char*);
-	int (*set)(kvs_t*, char*, char*);
-	int (*kvs_close)(kvs_t*);
-	kvs_t* (*kvs_open)();
-	int (*capture)(kvs_t*, char*);
-	int (*recover)(kvs_t*, FILE*);
-
-	//dynamically load the shared library
-	void *handle;
-	char *error;
-	
-	//for dynamic linking
-	//open libkvs.so and link functions.
-	handle = dlopen("./libkvs.so", RTLD_LAZY);
-	if (!handle){
-		fprintf(stderr, "%s\n", dlerror());
-		exit(1);
-	}
-
-	get = dlsym(handle, "get");
-	if ((error = dlerror())!=NULL){
-                fprintf(stderr, "%s\n", error);
-                exit(1);
-        }
-
-	set = dlsym(handle, "set");
-	if ((error = dlerror())!=NULL){
-                fprintf(stderr, "%s\n", error);
-                exit(1);
-        }
-
-	kvs_open = dlsym(handle, "kvs_open");
-	if ((error = dlerror())!=NULL){
-                fprintf(stderr, "%s\n", error);
-                exit(1);
-        }
-
-	kvs_close = dlsym(handle, "kvs_close");
-	if ((error = dlerror())!=NULL){
-                fprintf(stderr, "%s\n", error);
-                exit(1);
-        }
-
-	capture = dlsym(handle, "capture");
-	if ((error = dlerror())!=NULL){
-                fprintf(stderr, "%s\n", error);
-                exit(1);
-        }
- 
-        recover = dlsym(handle, "recover");
-        if ((error = dlerror())!=NULL){
-                fprintf(stderr, "%s\n", error);
-                exit(1);
-        }
 
 	//connet with server
 	int listenfd, connfd, port, clientlen;
